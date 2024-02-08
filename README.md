@@ -3,7 +3,7 @@
 Asynchronous Python package for working with the API [fu.andcool.ru](https://fu.andcool.ru). The package is currently in beta.
 
 ## Installing
-Run `pip install fileuploader` in the console
+Run `pip install fileuploader` in the console.
 
 ## Simple example
 Use the `upload` method to upload the file to the server.
@@ -23,3 +23,4 @@ asyncio.run(run())
 ```
 
 ## More examples
+You can find more usage examples [here](https://github.com/Andcool-Systems/FileUploader-python/tree/main/fileuploader/tests).
