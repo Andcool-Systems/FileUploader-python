@@ -1,6 +1,6 @@
 import aiohttp as __aiohttp
 import fileuploader.AuthError as AuthError
-import fileuploader.exceptions as __exceptions
+import fileuploader.exceptions as exceptions
 
 class UploadResponse:
     def __init__(self, response_json):
@@ -14,7 +14,7 @@ class UploadResponse:
         self.craeted_at: float = response_json["craeted_at"]
         self.auth_error: AuthError.AuthError = (
             AuthError.AuthError(response_json["auth_error"])
-            if response_json["auth_error"]
+            if "auth_error" in response_json and response_json["auth_error"]
             else None
         )
 
@@ -28,14 +28,14 @@ class UploadResponse:
                     return True
 
                 errors = {
-                    400: __exceptions.InvalidUniqueKey,
-                    404: __exceptions.FileNotFound,
-                    429: __exceptions.TooManyRequests,
-                    500: __exceptions.InternalServerError,
-                    502: __exceptions.APIDidntRespond,
-                    522: __exceptions.ServerDidntRespond,
+                    400: exceptions.InvalidUniqueKey,
+                    404: exceptions.FileNotFound,
+                    429: exceptions.TooManyRequests,
+                    500: exceptions.InternalServerError,
+                    502: exceptions.APIDidntRespond,
+                    522: exceptions.ServerDidntRespond,
                 }
-                raise errors.get(response.status, __exceptions.UnhandledError(response.status))
+                raise errors.get(response.status, exceptions.UnhandledError(response.status))
 
     def __str__(self):
         return f"<UploadResponse file_url:'{self.file_url}' user_filename:'{self.user_filename}'>"

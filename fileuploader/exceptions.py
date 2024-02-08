@@ -54,6 +54,14 @@ class Forbidden(Exception):
     """Forbidden"""
     pass
 
+class AlreadyInGroup(Exception):
+    """You are already in the group"""
+    pass
+
+class InvalidLink(Exception):
+    """Invite link not found"""
+    pass
+
 class NotAuthorized(Exception):
     """Invalid access token or token expired+-"""
     def __init__(self, auth_mess, message="Not Authorized: "):

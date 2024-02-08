@@ -1,6 +1,7 @@
 import aiohttp as aiohttp
 import fileuploader.exceptions as exceptions
 from typing import List, Dict
+import fileuploader.group as Group
 
 class User:
     def __init__(self):
@@ -34,6 +35,49 @@ class User:
                 if response.status != 200:
                     raise exceptions.UnhandledError(await response.json())
                 return (await response.json())['unsuccess']
+            
+    async def get_groups(self) -> List[Group.Group]:
+        if not self.accessToken:
+            raise exceptions.NotAuthorized("No access token provided")
+        
+        async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
+            async with session.get(f"/api/get_groups", headers={"Authorization": "Bearer " + self.accessToken}) as response:
+                if response.status != 200:
+                    raise exceptions.UnhandledError(await response.json())
+                
+                groups_list: List[Group.Group] = []
+                for group in (await response.json())['groups']:
+                    group_obj = Group.Group()
+                    group_obj.group_name = group["name"]
+                    group_obj.group_id = group["group_id"]
+                    groups_list.append(group_obj)
+
+                private_group = Group.Group()
+                private_group.group_id = "private"
+                private_group.group_name = "private"
+                groups_list.insert(0, private_group)
+                return groups_list
+            
+    async def create_group(self, group_name: str) -> Group.Group:
+        """Create group"""
+        if not self.accessToken:
+            raise exceptions.NotAuthorized("No access token provided")
+        
+        async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
+            async with session.post(f"/api/create_group", 
+                                    json={"group_name": group_name},
+                                    headers={"Authorization": "Bearer " + self.accessToken}) as response:
+                if response.status == 200:
+                    response_json = await response.json()
+                    group = Group.Group()
+                    group.group_id = response_json['group_id']
+                    group.group_name = response_json['name']
+                    return group
+
+                errors = {
+                    400: exceptions.Error((await response.json())['message']),
+                }
+                raise errors.get(response.status, exceptions.UnhandledError(response.status))
 
 
 async def login(username: str, password: str, is_bot: bool = False) -> User:

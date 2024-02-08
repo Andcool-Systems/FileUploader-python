@@ -10,21 +10,25 @@ import fileuploader.exceptions as exceptions
 import fileuploader.user as User
 import fileuploader.AuthError as AuthError
 import fileuploader.group as Group
+from fileuploader.InviteLink import InviteLink
 
 __version__ = "0.1.0"
 __author__ = 'AndcoolSystems'
 
 
-async def upload(bytes: bytes, filename: str, user: User.User = None, group: str = None) -> UploadResponse.UploadResponse:
+async def upload(bytes: bytes, filename: str, user: User.User = None, group: Group.Group = None) -> UploadResponse.UploadResponse:
     form_data = __aiohttp.FormData()
     form_data.add_field('file', bytes, filename=filename)
 
     headers = {}
+    group_id = "private"
     if user and user.accessToken:
         headers = {"Authorization": "Bearer " + user.accessToken}
+        if group and group.group_id:
+            group_id = group.group_id
 
     async with __aiohttp.ClientSession("https://fu.andcool.ru") as session:
-        async with session.post(f"/api/upload/private", 
+        async with session.post(f"/api/upload/{group_id}", 
                                 data=form_data, headers=headers) as response:
             if response.status == 200:
                 return UploadResponse.UploadResponse(await response.json())
