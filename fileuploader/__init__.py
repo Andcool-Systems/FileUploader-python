@@ -10,9 +10,8 @@ import fileuploader.exceptions as exceptions
 import fileuploader.user as User
 import fileuploader.AuthError as AuthError
 import fileuploader.group as Group
-from fileuploader.InviteLink import InviteLink
 
-__version__ = "0.1.0"
+__version__ = "0.1.2"
 __author__ = 'AndcoolSystems'
 
 
