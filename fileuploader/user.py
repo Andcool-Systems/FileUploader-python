@@ -4,9 +4,9 @@ from typing import List, Dict
 import fileuploader.group as Group
 
 class User:
-    def __init__(self):
+    def __init__(self, accessToken: str = None):
         self.username = None
-        self.accessToken = None
+        self.accessToken = accessToken
 
     def __str__(self):
         return f"<User username:'{self.username}'>"
