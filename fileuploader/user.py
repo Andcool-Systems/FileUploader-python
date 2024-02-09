@@ -137,3 +137,22 @@ async def refresh_token(token: str) -> str:
                 return response_json['accessToken']
 
             raise exceptions.UnhandledError(response.status)
+        
+
+async def loginToken(token: str) -> User:
+    """Log in by username and password"""
+    async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
+        async with session.get(f"/api/login/token", 
+                                headers={"Authorization": "Bearer " + token}) as response:
+            if response.status == 200:
+                response_json = await response.json()
+                user = User()
+                user.username = response_json['username']
+                user.accessToken = response_json['accessToken']
+                return user
+
+            if response.status == 401:
+                response_json = await response.json()
+                raise exceptions.NotAuthorized(response_json['auth_error']['message'])
+            
+            raise exceptions.UnhandledError(response.status)
