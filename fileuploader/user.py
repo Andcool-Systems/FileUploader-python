@@ -5,6 +5,9 @@ import fileuploader.group as Group
 
 class User:
     def __init__(self, accessToken: str = None):
+        """
+        User object
+        """
         self.username = None
         self.accessToken = accessToken
 
@@ -37,6 +40,7 @@ class User:
                 return (await response.json())['unsuccess']
             
     async def get_groups(self) -> List[Group.Group]:
+        """Gets groups from user account"""
         if not self.accessToken:
             raise exceptions.NotAuthorized("No access token provided")
         

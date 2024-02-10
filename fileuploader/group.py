@@ -6,6 +6,7 @@ from typing import List
 
 class Group:
     def __init__(self):
+        """Files group class"""
         self.group_id: str = None
         self.group_name: str = None
 
@@ -48,7 +49,7 @@ class Group:
                 raise errors.get(response.status, exceptions.UnhandledError(response.status))
             
     async def get_files(self, user) -> List[UploadResponse.UploadResponse]:
-        """Get files in group"""
+        """Get files from the group"""
         if not self.group_id or not user.accessToken:
             raise exceptions.NotAuthorized("The user or group has not been initialized")
         
@@ -90,6 +91,7 @@ class Group:
         
 class InviteLink:
     def __init__(self, link: str):
+        """Invite link class"""
         self.link: str = link.split("/")[-1]
         self.link_full = link
 

@@ -4,6 +4,7 @@ import fileuploader.exceptions as exceptions
 
 class UploadResponse:
     def __init__(self, response_json):
+        """API upload response class"""
         self.file_url: str = response_json["file_url"]
         self.file_url_full: str = response_json["file_url_full"]
         self.key: str = response_json["key"]

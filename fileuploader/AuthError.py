@@ -1,5 +1,8 @@
+from typing import Dict
+
 class AuthError:
-    def __init__(self, auth_error: dict[str, int]):
+    def __init__(self, auth_error: Dict[str, int]):
+        """Auth error class"""
         self.message = None
         self.error_id = None
         if auth_error:
