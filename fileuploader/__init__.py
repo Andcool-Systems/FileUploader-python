@@ -11,7 +11,7 @@ import fileuploader.user as User
 import fileuploader.AuthError as AuthError
 import fileuploader.group as Group
 
-__version__ = "0.1.3.1"
+__version__ = "0.1.3.2"
 __author__ = 'AndcoolSystems'
 
 
