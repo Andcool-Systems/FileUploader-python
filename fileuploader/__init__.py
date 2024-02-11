@@ -1,5 +1,5 @@
 """
-file uploader
+File uploader
 
 Package for working with the API fu.andcool.ru
 """
@@ -15,7 +15,7 @@ __version__ = "0.1.3.3"
 __author__ = 'AndcoolSystems'
 
 
-async def upload(bytes: bytes, filename: str, user: User.User = None, group: Group.Group = None) -> UploadResponse.UploadResponse:
+async def upload(bytes: bytes, filename: str, user: User.User = None, group: Group.Group = None, include_ext: bool = False) -> UploadResponse.UploadResponse:
     form_data = __aiohttp.FormData()
     form_data.add_field('file', bytes, filename=filename)
 
@@ -27,7 +27,7 @@ async def upload(bytes: bytes, filename: str, user: User.User = None, group: Gro
             group_id = group.group_id
 
     async with __aiohttp.ClientSession("https://fu.andcool.ru") as session:
-        async with session.post(f"/api/upload/{group_id}", 
+        async with session.post(f"/api/upload/{group_id}?include_ext={str(include_ext).lower()}", 
                                 data=form_data, headers=headers) as response:
             if response.status == 200:
                 return UploadResponse.UploadResponse(await response.json())
