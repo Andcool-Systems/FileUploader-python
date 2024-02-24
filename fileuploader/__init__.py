@@ -11,7 +11,7 @@ import fileuploader.user as User
 import fileuploader.AuthError as AuthError
 import fileuploader.group as Group
 
-__version__ = "0.1.3.3"
+__version__ = "0.1.3.4"
 __author__ = 'AndcoolSystems'
 
 
@@ -34,7 +34,7 @@ async def upload(bytes: bytes, filename: str, user: User.User = None, group: Gro
             
             errors = {  # List of known errors
                 400: exceptions.InvalidGroup,
-                401: exceptions.NotAuthorized(await response.json()['auth_error']),
+                401: exceptions.NotAuthorized((await response.json())['auth_error']),
                 403: exceptions.YouAreNotInTheGroup,
                 404: exceptions.GroupNotFound,
                 413: exceptions.FileSizeExceedsTheLimit,

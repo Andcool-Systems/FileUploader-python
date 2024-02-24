@@ -144,7 +144,7 @@ async def refresh_token(token: str) -> str:
         
 
 async def loginToken(token: str) -> User:
-    """Log in by username and password"""
+    """Log in by access token"""
     async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
         async with session.get(f"/api/login/token", 
                                 headers={"Authorization": "Bearer " + token}) as response:
