@@ -8,7 +8,6 @@ import aiohttp as __aiohttp
 import fileuploader.UploadResponse as UploadResponse
 import fileuploader.exceptions as exceptions
 import fileuploader.user as User
-import fileuploader.AuthError as AuthError
 import fileuploader.group as Group
 
 __version__ = "0.1.3.4"

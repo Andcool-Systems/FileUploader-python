@@ -20,7 +20,7 @@ class User:
             raise exceptions.NotAuthorized("No access token provided")
         
         async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
-            async with session.post(f"/api/logout", headers={"Authorization": "Bearer " + self.accessToken}) as response:
+            async with session.post("/api/logout", headers={"Authorization": "Bearer " + self.accessToken}) as response:
                 if response.status == 401 or response.status == 200:
                     self.accessToken = None
                 return response.status == 401 or response.status == 200
@@ -31,7 +31,7 @@ class User:
             raise exceptions.NotAuthorized("No access token provided")
         
         async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
-            async with session.post(f"/api/transfer", headers={"Authorization": "Bearer " + self.accessToken},
+            async with session.post("/api/transfer", headers={"Authorization": "Bearer " + self.accessToken},
                                     json={
                                         "data": data
                                     }) as response:
@@ -45,7 +45,7 @@ class User:
             raise exceptions.NotAuthorized("No access token provided")
         
         async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
-            async with session.get(f"/api/get_groups", headers={"Authorization": "Bearer " + self.accessToken}) as response:
+            async with session.get("/api/get_groups", headers={"Authorization": "Bearer " + self.accessToken}) as response:
                 if response.status != 200:
                     raise exceptions.UnhandledError(await response.json())
                 
@@ -68,7 +68,7 @@ class User:
             raise exceptions.NotAuthorized("No access token provided")
         
         async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
-            async with session.post(f"/api/create_group", 
+            async with session.post("/api/create_group", 
                                     json={"group_name": group_name},
                                     headers={"Authorization": "Bearer " + self.accessToken}) as response:
                 if response.status == 200:
@@ -134,7 +134,7 @@ async def register(username: str, password: str, is_bot: bool = False) -> User:
 async def refresh_token(token: str) -> str:
     """Refreshes an access token"""
     async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
-        async with session.post(f"/api/refresh_token", 
+        async with session.post("/api/refresh_token", 
                                 json={"accessToken": token}) as response:
             if response.status == 200:
                 response_json = await response.json()
@@ -146,7 +146,7 @@ async def refresh_token(token: str) -> str:
 async def loginToken(token: str) -> User:
     """Log in by access token"""
     async with aiohttp.ClientSession("https://fu.andcool.ru") as session:
-        async with session.get(f"/api/login/token", 
+        async with session.get("/api/login/token", 
                                 headers={"Authorization": "Bearer " + token}) as response:
             if response.status == 200:
                 response_json = await response.json()
