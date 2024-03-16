@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='fileuploader',
-    version='0.1.3.5',    
+    version='0.1.3.6',    
     description='Package for working with the API fu.andcool.ru',
     url='https://github.com/Andcool-Systems/FileUploader-python',
     long_description=open('README.md', encoding='utf-8').read(),
