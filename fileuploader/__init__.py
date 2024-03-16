@@ -10,7 +10,7 @@ import fileuploader.exceptions as exceptions
 import fileuploader.user as User
 import fileuploader.group as Group
 
-__version__ = "0.1.3.4"
+__version__ = "0.1.3.5"
 __author__ = 'AndcoolSystems'
 
 

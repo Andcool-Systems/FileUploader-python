@@ -2,3 +2,4 @@
 /fileuploader.egg-info
 /dist
 /.pypirc
+/.ruff_cache
